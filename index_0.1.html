@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<title>Cross Paths Cafe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --cream: #F0E8DD;
+    --cream-dark: #E5D9CB;
+    --espresso: #2C1A0E;
+    --espresso-mid: #4A2C18;
+    --caramel: #A0622A;
+    --caramel-light: #C8894E;
+    --white: #FDFAF7;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  /* Force light mode — prevent browser/OS dark mode from overriding */
+  html, body {
+    color-scheme: light only;
+  }
+
+  body {
+    background-color: #F0E8DD !important;
+    color: #2C1A0E !important;
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.4rem 3rem;
+    background: rgba(240, 232, 221, 0.97) !important;
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(44, 26, 14, 0.08);
+  }
+
+  .nav-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--espresso);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--espresso-mid);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 400;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--caramel); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 7rem 2rem 4rem;
+    position: relative;
+    background-color: #F0E8DD !important;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 40%, rgba(160, 98, 42, 0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .logo-wrap {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 8px 40px rgba(44, 26, 14, 0.12);
+    animation: fadeUp 0.9s ease both;
+  }
+
+  .logo-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    margin-bottom: 1rem;
+    animation: fadeUp 0.9s 0.1s ease both;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.2rem, 8vw, 6.5rem);
+    font-weight: 300;
+    line-height: 1.0;
+    letter-spacing: -0.01em;
+    color: var(--espresso);
+    animation: fadeUp 0.9s 0.2s ease both;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--caramel);
+  }
+
+  .hero-sub {
+    margin-top: 1.4rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--espresso-mid);
+    opacity: 0.7;
+    animation: fadeUp 0.9s 0.3s ease both;
+  }
+
+
+
+  .hero-scroll {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 3rem;
+    color: var(--caramel);
+    animation: fadeUp 1s 0.5s ease both;
+  }
+
+  .scroll-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    font-family: "Jost", sans-serif;
+    font-weight: 400;
+    border-bottom: 1px solid rgba(160, 98, 42, 0.3);
+    padding-bottom: 0.5rem;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: var(--caramel);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0 auto;
+    width: fit-content;
+    padding: 0.5rem 0;
+  }
+
+  .divider-line { width: 48px; height: 1px; background: var(--caramel); opacity: 0.5; }
+  .divider-bean { width: 10px; height: 14px; background: var(--caramel); border-radius: 50% / 40%; opacity: 0.6; }
+
+  /* ── MENU ── */
+  #menu {
+    padding: 6rem 2rem 7rem;
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: #F0E8DD !important;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .section-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    margin-bottom: 0.8rem;
+  }
+
+  .section-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 300;
+    color: var(--espresso);
+    line-height: 1.1;
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5px;
+    background: rgba(44, 26, 14, 0.1);
+    border: 1px solid rgba(44, 26, 14, 0.1);
+  }
+
+  .menu-item {
+    background: #F0E8DD !important;
+    padding: 2.8rem 2.4rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+    cursor: default;
+  }
+
+  .menu-item::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--caramel);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.3s ease;
+  }
+
+  .menu-item:hover { background: #FDFAF7 !important; }
+  .menu-item:hover::before { transform: scaleY(1); }
+
+  .menu-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: var(--caramel);
+    margin-bottom: 0.6rem;
+    opacity: 0.7;
+  }
+
+  .menu-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.65rem;
+    font-weight: 400;
+    color: var(--espresso);
+    line-height: 1.2;
+    margin-bottom: 0.6rem;
+  }
+
+  .menu-desc {
+    font-size: 0.75rem;
+    color: var(--espresso-mid);
+    line-height: 1.7;
+    opacity: 0.75;
+  }
+
+  .menu-tag {
+    display: inline-block;
+    margin-top: 1.2rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    border: 1px solid rgba(160, 98, 42, 0.35);
+    padding: 0.25rem 0.65rem;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--espresso);
+    color: var(--cream);
+    padding: 7rem 2rem;
+    text-align: center;
+  }
+
+  #about .section-eyebrow { color: var(--caramel-light); }
+
+  #about h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.9rem, 5vw, 3rem);
+    font-weight: 300;
+    line-height: 1.3;
+    max-width: 640px;
+    margin: 0.6rem auto 1.6rem;
+    color: var(--cream);
+  }
+
+  #about h2 em {
+    font-style: italic;
+    color: var(--caramel-light);
+  }
+
+  #about p {
+    max-width: 500px;
+    margin: 0 auto;
+    font-size: 0.82rem;
+    line-height: 1.9;
+    color: rgba(240, 232, 221, 0.6);
+    letter-spacing: 0.02em;
+  }
+
+  .about-values {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    margin-top: 4rem;
+    flex-wrap: wrap;
+  }
+
+  .value-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .value-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    font-weight: 300;
+    color: var(--caramel-light);
+    line-height: 1;
+  }
+
+  .value-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(240, 232, 221, 0.45);
+  }
+
+  /* ── VISIT ── */
+  #visit {
+    padding: 7rem 2rem;
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto;
+    background-color: #F0E8DD !important;
+  }
+
+  #visit h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 300;
+    color: var(--espresso);
+    margin-bottom: 3rem;
+  }
+
+  .visit-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .visit-block h4 {
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    margin-bottom: 0.7rem;
+  }
+
+  .visit-block p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--espresso);
+    line-height: 1.5;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background-color: #F0E8DD !important;
+    border-top: 1px solid rgba(44, 26, 14, 0.1);
+    padding: 2.5rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--espresso);
+  }
+
+  .footer-tagline {
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    opacity: 0.7;
+    text-align: right;
+  }
+
+
+  /* ── NAV ORDER BTN ── */
+  .nav-order-btn {
+    background: var(--espresso) !important;
+    color: var(--cream) !important;
+    padding: 0.45rem 1.1rem !important;
+    font-size: 0.68rem !important;
+    letter-spacing: 0.15em !important;
+    transition: background 0.2s, color 0.2s !important;
+  }
+  .nav-order-btn:hover {
+    background: var(--caramel) !important;
+    color: var(--white) !important;
+  }
+
+  /* ── ORDER SECTION ── */
+  #order {
+    padding: 4rem 2rem 6rem;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #F0E8DD !important;
+  }
+
+  .order-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+
+  .order-link {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1.3rem 1.8rem;
+    text-decoration: none;
+    border: 1px solid rgba(44, 26, 14, 0.15);
+    background: #FDFAF7;
+    transition: border-color 0.25s, transform 0.2s, box-shadow 0.25s;
+    position: relative;
+  }
+
+  .order-link:hover {
+    border-color: var(--caramel);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(44, 26, 14, 0.08);
+  }
+
+  .order-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+
+  .order-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.1rem;
+    flex: 1;
+  }
+
+  .order-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    font-family: "Jost", sans-serif;
+  }
+
+  .order-platform {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--espresso);
+    line-height: 1;
+  }
+
+  .order-arrow {
+    font-size: 1rem;
+    color: var(--caramel);
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
+
+  /* ── VISIT LINKS ── */
+  .visit-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .visit-link-label {
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    font-family: "Jost", sans-serif;
+    margin-top: 0.3rem;
+    transition: opacity 0.2s;
+  }
+
+  .visit-link:hover .visit-link-label { opacity: 0.7; }
+  .visit-link:hover p { color: var(--caramel); }
+  .visit-link p { transition: color 0.2s; }
+
+
+  /* ── COOKIE BANNER ── */
+  .cookie-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(44, 26, 14, 0.45);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 1.5rem;
+    animation: overlayIn 0.4s ease both;
+  }
+
+  .cookie-overlay.hide {
+    animation: overlayOut 0.4s ease forwards;
+  }
+
+  .cookie-banner {
+    background: #FDFAF7;
+    max-width: 480px;
+    width: 100%;
+    padding: 2.4rem 2rem 2rem;
+    position: relative;
+    border-top: 3px solid var(--caramel);
+    box-shadow: 0 -4px 40px rgba(44, 26, 14, 0.15);
+    animation: bannerUp 0.5s cubic-bezier(0.22,1,0.36,1) both;
+  }
+
+  .cookie-overlay.hide .cookie-banner {
+    animation: bannerDown 0.35s ease forwards;
+  }
+
+  .cookie-bean {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+  }
+
+  .cookie-bean-icon {
+    width: 28px;
+    height: 28px;
+    background: var(--espresso);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  .cookie-eyebrow {
+    font-size: 0.58rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    font-family: "Jost", sans-serif;
+    font-weight: 400;
+  }
+
+  .cookie-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.45rem;
+    font-weight: 400;
+    color: var(--espresso);
+    line-height: 1.25;
+    margin-bottom: 0.8rem;
+  }
+
+  .cookie-text {
+    font-size: 0.75rem;
+    color: var(--espresso-mid);
+    line-height: 1.75;
+    opacity: 0.8;
+    margin-bottom: 1.6rem;
+  }
+
+  .cookie-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .cookie-btn {
+    width: 100%;
+    padding: 0.9rem 1.2rem;
+    font-family: "Jost", sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 400;
+    border: none;
+    cursor: pointer;
+    transition: background 0.22s, color 0.22s, transform 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .cookie-btn:active { transform: scale(0.98); }
+
+  .cookie-btn-accept {
+    background: var(--espresso);
+    color: var(--cream);
+  }
+
+  .cookie-btn-accept:hover { background: var(--caramel); }
+
+  .cookie-btn-reject {
+    background: transparent;
+    color: var(--espresso-mid);
+    border: 1px solid rgba(44, 26, 14, 0.2);
+  }
+
+  .cookie-btn-reject:hover {
+    border-color: var(--espresso-mid);
+    background: rgba(44, 26, 14, 0.04);
+  }
+
+  .cookie-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.6rem;
+    opacity: 0.3;
+  }
+
+  .cookie-divider-line { flex: 1; height: 1px; background: var(--espresso); }
+  .cookie-divider-dot  { width: 3px; height: 3px; border-radius: 50%; background: var(--caramel); }
+
+  @keyframes overlayIn  { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes overlayOut { from { opacity: 1; } to { opacity: 0; } }
+  @keyframes bannerUp   { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes bannerDown { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(40px); } }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 1; transform: scaleY(1); }
+    50%       { opacity: 0.4; transform: scaleY(0.6); }
+  }
+
+  /* ── REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 680px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    .menu-grid { grid-template-columns: 1fr; }
+    .visit-grid { grid-template-columns: 1fr; }
+    .about-values { gap: 2.5rem; }
+    footer { flex-direction: column; text-align: center; }
+    .footer-tagline { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="#">Cross Paths</a>
+  <ul class="nav-links">
+    <li><a href="#order" class="nav-order-btn">Order</a></li>
+    <li><a href="#visit">Visit</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="logo-wrap">
+    <img src="Logo.png" alt="Cross Paths Cafe Logo">
+  </div>
+  <p class="hero-eyebrow">Cold Coffee · Good Vibes</p>
+  <h1>Every sip,<br>a <em>moment</em>.</h1>
+  <p class="hero-sub">Cross Paths Cafe &nbsp;·&nbsp; Cold Coffee Specialists</p>
+  <div class="hero-scroll">
+    <span class="scroll-label">Scroll to explore menu</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="section-header reveal">
+    <p class="section-eyebrow">What We Brew</p>
+    <h2>Cold coffee, four ways.</h2>
+  </div>
+
+  <div class="menu-grid">
+    <div class="menu-item reveal">
+      <div class="menu-number">No. 01</div>
+      <div class="menu-name">Classic<br>Cold Coffee</div>
+      <p class="menu-desc">The one that started it all. Smooth, balanced, and quietly perfect — cold brew blended with chilled milk and a touch of sweetness.</p>
+      <span class="menu-tag">Signature</span>
+    </div>
+    <div class="menu-item reveal">
+      <div class="menu-number">No. 02</div>
+      <div class="menu-name">Strong<br>Cold Coffee</div>
+      <p class="menu-desc">Double shot, undiluted character. For those who want their coffee to speak first. Bold, dark, and unapologetically intense.</p>
+      <span class="menu-tag">Bold Pick</span>
+    </div>
+    <div class="menu-item reveal">
+      <div class="menu-number">No. 03</div>
+      <div class="menu-name">Caramel<br>Cold Coffee</div>
+      <p class="menu-desc">A gentle golden sweetness woven through the cold brew. Smooth ribbons of caramel balanced against deep coffee notes.</p>
+      <span class="menu-tag">Sweet Spot</span>
+    </div>
+    <div class="menu-item reveal">
+      <div class="menu-number">No. 04</div>
+      <div class="menu-name">Chocolate<br>Cold Coffee</div>
+      <p class="menu-desc">Rich cocoa meets cold brew in a cup that feels like a treat. Dense, indulgent, and perfectly chilled.</p>
+      <span class="menu-tag">Fan Favourite</span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="reveal">
+    <p class="section-eyebrow">Our Story</p>
+    <h2>A place where <em>paths cross</em><br>over great coffee.</h2>
+    <p>We started Cross Paths Cafe with one belief — that cold coffee deserves the same care as any craft. Every cup is made fresh, every visit should feel like running into an old friend.</p>
+
+    <div class="about-values">
+      <div class="value-item">
+        <span class="value-num">4</span>
+        <span class="value-label">Cold Coffees</span>
+      </div>
+      <div class="value-item">
+        <span class="value-num">Fresh</span>
+        <span class="value-label">Made Daily</span>
+      </div>
+      <div class="value-item">
+        <span class="value-num">∞</span>
+        <span class="value-label">Good Vibes</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ORDER -->
+<section id="order">
+  <div class="divider" style="margin-bottom: 3rem;">
+    <div class="divider-line"></div>
+    <div class="divider-bean"></div>
+    <div class="divider-line"></div>
+  </div>
+  <div class="section-header reveal">
+    <p class="section-eyebrow">Order Online</p>
+    <h2>Get it delivered.</h2>
+  </div>
+  <div class="order-btns reveal">
+    <a href="YOUR_SWIGGY_LINK" target="_blank" class="order-link swiggy">
+      <span class="order-icon">🛵</span>
+      <span class="order-text">
+        <span class="order-label">Order on</span>
+        <span class="order-platform">Swiggy</span>
+      </span>
+      <span class="order-arrow">↗</span>
+    </a>
+    <a href="YOUR_ZOMATO_LINK" target="_blank" class="order-link zomato">
+      <span class="order-icon">🍽</span>
+      <span class="order-text">
+        <span class="order-label">Order on</span>
+        <span class="order-platform">Zomato</span>
+      </span>
+      <span class="order-arrow">↗</span>
+    </a>
+  </div>
+</section>
+
+<!-- VISIT -->
+<section id="visit">
+  <div class="divider" style="margin-bottom: 3rem;">
+    <div class="divider-line"></div>
+    <div class="divider-bean"></div>
+    <div class="divider-line"></div>
+  </div>
+  <h2 class="reveal">Come find us.</h2>
+  <div class="visit-grid reveal">
+    <div class="visit-block">
+      <h4>Hours</h4>
+      <p>All Days<br>12 pm – 1 am</p>
+    </div>
+    <div class="visit-block">
+      <h4>Location</h4>
+      <a href="YOUR_GOOGLE_MAPS_LINK" target="_blank" class="visit-link">
+        <p>Bengaluru,<br>Nallurhalli</p>
+        <span class="visit-link-label">Open in Maps ↗</span>
+      </a>
+    </div>
+    <div class="visit-block">
+      <h4>Instagram</h4>
+      <a href="https://www.instagram.com/crosspaths_?igsh=MTFqbGxlODczb3Y4YQ==" target="_blank" class="visit-link">
+        <p>@crosspaths_</p>
+        <span class="visit-link-label">Follow us ↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-brand">Cross Paths Cafe</span>
+  <span class="footer-tagline">Cold Coffee · Good Vibes · Cross Paths</span>
+</footer>
+
+
+<!-- COOKIE BANNER -->
+<div class="cookie-overlay" id="cookieOverlay">
+  <div class="cookie-banner">
+    <div class="cookie-bean">
+      <div class="cookie-bean-icon">☕</div>
+      <span class="cookie-eyebrow">Cross Paths Cafe</span>
+    </div>
+    <div class="cookie-divider">
+      <div class="cookie-divider-line"></div>
+      <div class="cookie-divider-dot"></div>
+      <div class="cookie-divider-line"></div>
+    </div>
+    <div class="cookie-title">A Small Stop Before<br>Your First Sip</div>
+    <p class="cookie-text">We use cookies to understand how visitors discover Cross Paths Cafe and to keep things running smoothly.</p>
+    <div class="cookie-buttons">
+      <button class="cookie-btn cookie-btn-accept" onclick="handleCookie('accepted')">☕ Take the First Sip</button>
+      <button class="cookie-btn cookie-btn-reject" onclick="handleCookie('rejected')">🚶 Continue Without Cookies</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // ── Cookie banner logic ──
+  const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxNGHTPpEY1iU_rM-5FN-JL1WRqAlscJofeBhINqApyqxVHZDwmnoqpMV89EQrmeMvC/exec';
+
+  function generateId() {
+    return 'v' + Date.now() + Math.random().toString(36).slice(2, 7);
+  }
+
+  async function handleCookie(choice) {
+    const overlay = document.getElementById('cookieOverlay');
+    overlay.classList.add('hide');
+    setTimeout(() => overlay.remove(), 400);
+
+    // Save choice locally
+    localStorage.setItem('cp_cookie_choice', choice);
+    localStorage.setItem('cp_cookie_date', new Date().toISOString());
+
+    // Log to Google Sheets
+    const now = new Date();
+    const payload = {
+      id: generateId(),
+      choice: choice,
+      timestamp: now.toTimeString().split(' ')[0],
+      date: now.toISOString().split('T')[0]
+    };
+
+    try {
+      await fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } catch (e) {
+      console.log('Sheet log failed (non-critical):', e);
+    }
+  }
+
+  // Don't show banner if already answered
+  window.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('cp_cookie_choice')) {
+      const overlay = document.getElementById('cookieOverlay');
+      if (overlay) overlay.remove();
+    }
+  });
+
+</script>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyC4Jn6RHlceCkQt8w2gmpGca1FAFD1RIUY",
+    authDomain: "cross-path-cafe.firebaseapp.com",
+    projectId: "cross-path-cafe",
+    storageBucket: "cross-path-cafe.firebasestorage.app",
+    messagingSenderId: "448891586758",
+    appId: "1:448891586758:web:e551aa86f9c9684b276fc7",
+    measurementId: "G-BX8RZ6W1KR"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+</body>
+</html>
